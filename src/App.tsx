@@ -1,12 +1,20 @@
 import './App.css'
 import MyMap from "./components/MyMap/MyMap.tsx";
+import {useCoordinateState} from "./CoordinateState.tsx";
+import SubmitButton from "./components/SubmitButton/SubmitButton.tsx";
 
 function App() {
+  const {currentCoordinates} = useCoordinateState()
   return (
     <>
-      <div style={{ width: '1000px', height: '1000px'}}>
+      <div>
         <MyMap/>
       </div>
+      <div>
+        {currentCoordinates[0]}, {currentCoordinates[1]}
+      </div>
+      <SubmitButton onClick={() => {console.log("Hello")}}/>
+
     </>
   )
 }
