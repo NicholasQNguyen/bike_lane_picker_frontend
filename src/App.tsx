@@ -1,22 +1,18 @@
 import './App.css'
 import MyMap from "./components/MyMap/MyMap.tsx";
-import {useCoordinateState} from "./CoordinateState.tsx";
-import SubmitButton from "./components/SubmitButton/SubmitButton.tsx";
 
 function App() {
-  const {currentCoordinates} = useCoordinateState()
   return (
     <>
-      <div>
+      <div className={"w-[1000] h-[400]"}>
         <MyMap/>
       </div>
-      <div>
-        {currentCoordinates[0]}, {currentCoordinates[1]}
-      </div>
-      <SubmitButton onClick={() => {console.log("Hello")}}/>
-
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => console.log("Hello")}>
+        Test
+      </button>
     </>
   )
 }
 
-export default App
+export default App;
