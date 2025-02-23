@@ -4,9 +4,11 @@ import MyMap from "./components/MyMap/MyMap.tsx";
 function App() {
   return (
     <>
-      <div style={{ width: '1000px', height: '1000px'}}>
+      <div className="w-[1000] h-[400]">
         <MyMap/>
       </div>
+      <button className="rounded-xl bg-green-500 p-6 text-white"
+      onClick={() => {console.log("test")}}>Test</button>
     </>
   )
 }
