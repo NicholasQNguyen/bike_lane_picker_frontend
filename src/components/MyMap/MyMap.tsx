@@ -7,13 +7,15 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { fromLonLat } from 'ol/proj';
 import 'ol/ol.css';
+import {useCoordinatesStore} from "../../CoordinatesStore.tsx";
 
 const MyMap = () => {
   // ol.proj.transform([-8367174.179297738, 4859025.894138464],"WGS84", "EPSG:900913");
   const mapRef = useRef();
   const [center, setCenter] = useState([-75.165, 39.952]);
   const [zoom, setZoom] = useState(14);
-  const [clickCoordinate, setClickCoordinate] = useState(null);
+  const [clickCoordinate, setClickCoordinate] = useState([0, 0]);
+  const {updateCoordinates} = useCoordinatesStore();
 
   useEffect(() => {
     const map = new Map({
@@ -33,7 +35,8 @@ const MyMap = () => {
     });
 
     const handleMapClick = (event) => {
-      const coordinate = event.coordinate;
+      const coordinate: number[] = event.coordinate;
+      updateCoordinates(coordinate);
       setClickCoordinate(coordinate);
     };
 
