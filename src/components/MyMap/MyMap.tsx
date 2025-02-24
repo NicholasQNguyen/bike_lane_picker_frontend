@@ -18,6 +18,8 @@ const MyMap = () => {
   const [zoom] = useState(14);
   const {updateCoordinates} = useCoordinatesStore();
 
+  const [iconFeatures, setIconFeatures] = useState<Feature<Point>[]>([]);
+
 
   useEffect(() => {
     const iconLonLat = [-75.1652, 39.9526];
@@ -52,10 +54,6 @@ const MyMap = () => {
 
         new VectorLayer({
           source: vectorSource,
-          style: {
-            'circle-radius': 9,
-            'circle-fill-color': 'red',
-          }
         })
       ],
       view: new View({
@@ -66,15 +64,48 @@ const MyMap = () => {
 
     const handleMapClick = (event: MapBrowserEvent<UIEvent>) => {
       const coordinate: number[] = event.coordinate
+
+      // Add an icon where it's clicked
+      const iconFeature = new Feature({
+        geometry: new Point(coordinate),
+        name: 'Philadelphia',
+        population: 4000,
+        rainfall: 500,
+      });
+      const iconStyle = new Style({
+        image: new Icon({
+          anchor: [0.5, 1],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+        }),
+      });
+      iconFeature.setStyle(iconStyle);
+      setIconFeatures([iconFeature])
+
       updateCoordinates(toLonLat(coordinate));
     };
 
     map.on('click', handleMapClick);
 
+    // Rerender when we add a new icon to the map (on Clicks)
+    const newVectorSource = new VectorSource({
+      features: iconFeatures,
+    });
+    map.setLayers([
+        new TileLayer({
+          source: new OSM()
+        }),
+        new VectorLayer({
+          source: newVectorSource,
+        })
+      ],
+    )
+
     return () => {
       map.setTarget(undefined);
     };
-  }, [center, zoom]);
+  }, [center, zoom, iconFeatures]);
 
   return (
     <div>
