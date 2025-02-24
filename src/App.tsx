@@ -4,10 +4,32 @@ import {useCoordinatesStore} from "./CoordinatesStore.tsx";
 import BluePillButton from "./components/BluePillButton/BluePillButton.tsx";
 import {useState} from "react";
 import {Description, Dialog, DialogPanel, DialogTitle} from "@headlessui/react";
+import {createClient} from "@supabase/supabase-js";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false)
   const {coordinates} = useCoordinatesStore();
+
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseAnonKey = process.env.SUPABASE_KEY;
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  // Function used to upload data to supabase db
+  async function submitData() {
+    try {
+      await supabase
+        .from("longitude_and_latitude")
+        .insert({
+          longitude: coordinates[0],
+          latitude: coordinates[1]
+        })
+      console.log("Submitted Data");
+    } catch (error) {
+      console.log("ERROR: ", error);
+    }
+    // Close the popup
+    setIsOpen(false);
+  }
 
   return (
     <>
@@ -29,7 +51,7 @@ function App() {
             <p>Are you sure you'd like to submit this?</p>
             <div className="flex gap-4">
               <BluePillButton text={"Cancel"} onClick={() => setIsOpen(false)}/>
-              <BluePillButton text={"Confirm"} onClick={() => setIsOpen(false)}/>
+              <BluePillButton text={"Confirm"} onClick={submitData}/>
             </div>
           </DialogPanel>
         </div>

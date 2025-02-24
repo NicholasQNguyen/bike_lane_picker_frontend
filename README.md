@@ -20,10 +20,22 @@ npm run dev
 ## How to run locally - Backend (Local Supabase)
 For local development, a local instance of Supabase
 is needed. This is how to start it up.
-
 ```shell
 npx supabase start
 ```
+
+You also need to set up some environment variables
+to get it to work properly. So do the following:
+
+1) Make a `.env` file in the root of the project
+2) Run `npx supabase status` and note down the
+`API_URL` and `anon key` values
+3) Make the .env file look like this:
+```
+SUPABASE_URL=<What you got in `API_URL`>
+SUPABASE_KEY=<What you got in `anon key`>
+```
+
 
 ## Webstorm Setup
 For Development, I'm primarily using Webstorm to code.
