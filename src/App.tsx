@@ -9,8 +9,7 @@ import {createClient, SupabaseClient} from "@supabase/supabase-js";
 function App() {
   const FIVE_SECONDS = 5000;
 
-  let supabase: SupabaseClient<any, 'public', any> | null = null;
-
+  const [supabase, setSupabase] = useState<SupabaseClient<any, "public", any> | undefined>(undefined)
   const [isOpen, setIsOpen] = useState(false)
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
   const {coordinates} = useCoordinatesStore();
@@ -18,6 +17,7 @@ function App() {
 
   // Set up supabase credentials
   useEffect(() => {
+    console.log("Creating supabase connection");
     const supabaseUrl = process.env.SUPABASE_URL;
     const supabaseAnonKey = process.env.SUPABASE_KEY;
     if (supabaseUrl === undefined) {
@@ -28,17 +28,24 @@ function App() {
       console.log("supabase anon key missing");
       return;
     }
-    supabase = createClient(supabaseUrl, supabaseAnonKey);
+    setSupabase(createClient(supabaseUrl, supabaseAnonKey));
   }, []);
 
   // Function used to upload data to supabase db
   async function submitData() {
     let confirmationMessage: string;
-    if (supabase === null) {
+    if (supabase === undefined) {
       console.log("supabase connection not made! Did you set up your environment variables?");
       confirmationMessage = "Error with database connection"
-      setIsConfirmationOpen(true)
-      setPopupMessage(confirmationMessage);
+      showConfirmationPopup(confirmationMessage);
+      return;
+    }
+
+    // Check for default submissions
+    if (coordinates[0] === 0 && coordinates[1] === 0) {
+      console.log("coordinates missing")
+      confirmationMessage = "Please enter a valid coordinate"
+      showConfirmationPopup(confirmationMessage);
       return;
     }
 
@@ -56,6 +63,11 @@ function App() {
     // Close the popup
     setIsOpen(false);
     // Show the success message
+    showConfirmationPopup(confirmationMessage);
+  }
+
+  // Function to show the message after the user hits submit
+  function showConfirmationPopup(confirmationMessage: string) {
     setIsConfirmationOpen(true)
     setPopupMessage(confirmationMessage);
   }
