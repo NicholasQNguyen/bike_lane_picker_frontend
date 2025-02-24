@@ -35,7 +35,7 @@ const MyMap = () => {
         anchor: [0.5, 1],
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
-        src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+        src: 'src/assets/green_dot.png',
       }),
     });
 
@@ -77,7 +77,7 @@ const MyMap = () => {
           anchor: [0.5, 1],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
-          src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+          src: 'src/assets/green_dot.png',
         }),
       });
       iconFeature.setStyle(iconStyle);
