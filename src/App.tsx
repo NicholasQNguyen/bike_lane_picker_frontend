@@ -28,7 +28,7 @@ function App() {
             <p>Are you sure you'd like to submit this?</p>
             <div className="flex gap-4">
               <button onClick={() => setIsOpen(false)}>Cancel</button>
-              <button onClick={() => setIsOpen(false)}>Deactivate</button>
+              <button onClick={() => setIsOpen(false)}>Confirm</button>
             </div>
           </DialogPanel>
         </div>
