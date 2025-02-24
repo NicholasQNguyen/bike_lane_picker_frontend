@@ -5,6 +5,7 @@ import BluePillButton from "./components/BluePillButton/BluePillButton.tsx";
 import {useEffect, useState} from "react";
 import {Description, Dialog, DialogPanel, DialogTitle} from "@headlessui/react";
 import {createClient, SupabaseClient} from "@supabase/supabase-js";
+import Footer from "./components/Footer/Footer.tsx";
 
 function App() {
   const FIVE_SECONDS = 5000;
@@ -81,11 +82,14 @@ function App() {
 
   return (
     <>
+      <h1 className="flex justify-center text-5xl">
+        Bike Lane Picker
+      </h1>
       <div className="w-[1000] h-[400]">
         <MyMap/>
       </div>
       <div className="flex justify-center">
-        <BluePillButton text={"Test"} onClick={() => setIsOpen(true)}/>
+        <BluePillButton text={"Submit"} onClick={() => setIsOpen(true)}/>
       </div>
       <div className="flex justify-center">
         coordinates from store: {coordinates[0]}, {coordinates[1]}
@@ -113,6 +117,7 @@ function App() {
           </DialogPanel>
         </div>
       </Dialog>
+      <Footer/>
     </>
   )
 }
