@@ -28,8 +28,8 @@ function App() {
             <Description>This will submit your entry</Description>
             <p>Are you sure you'd like to submit this?</p>
             <div className="flex gap-4">
-              <button onClick={() => setIsOpen(false)}>Cancel</button>
-              <button onClick={() => setIsOpen(false)}>Confirm</button>
+              <BluePillButton text={"Cancel"} onClick={() => setIsOpen(false)}/>
+              <BluePillButton text={"Confirm"} onClick={() => setIsOpen(false)}/>
             </div>
           </DialogPanel>
         </div>
