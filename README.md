@@ -63,7 +63,7 @@ code contributions, issues found, or even just a suggestions
 all is welcome!
 
 ## License
-This code is free to use under the terms of the MIT license. See LICENSE.
+This code is free to use under the terms of the MIT license. See [LICENSE](https://github.com/NicholasQNguyen/bike_lane_picker_frontend/blob/main/LICENSE).
 
 ## Contact
 Hana Nguyen - [shobico8@gmail.com](shobico8@gmail.com)
