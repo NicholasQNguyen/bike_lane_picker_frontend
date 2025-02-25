@@ -1,6 +1,9 @@
 # Bike Lane Picker Frontend
 
-An app to pick bike lanes (primarily around Philadelphia).
+https://bike-lane-picker-frontend.vercel.app/
+
+An app to pick spots on a map (primarily around Philadelphia).
+
 It is written in React, Vite, Typescript, and Tailwind
 and with a Supabase backend.
 
@@ -66,7 +69,7 @@ all is welcome!
 This code is free to use under the terms of the MIT license. See [LICENSE](https://github.com/NicholasQNguyen/bike_lane_picker_frontend/blob/main/LICENSE).
 
 ## Contact
-Hana Nguyen - [shobico8@gmail.com](shobico8@gmail.com)
+Hana Nguyen - shobico8@gmail.com
 
 Project Link: https://github.com/NicholasQNguyen/bike_lane_picker_frontend
 
