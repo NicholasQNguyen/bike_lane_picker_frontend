@@ -68,7 +68,7 @@ function App() {
       <h1 className="flex justify-center text-5xl">
         Bike Lane Picker
       </h1>
-      <div className="w-[1000] h-[400]">
+      <div>
         <SelectionMap/>
       </div>
       <div className="flex justify-center">
