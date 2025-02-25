@@ -16,12 +16,11 @@ interface ViewMapProps {
 }
 
 function ViewMap({longitudeAndLatitudePoints}: ViewMapProps) {
-  const mapRef = useRef();
-  const [center] = useState(fromLonLat([-75.1652, 39.9526]));
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [center] = useState(() => fromLonLat([-75.1652, 39.9526]));
   const [zoom] = useState(14);
 
   useEffect(() => {
-    console.log("LONGLAT POINTS: ", longitudeAndLatitudePoints);
     const features: Feature[] = []
     longitudeAndLatitudePoints.forEach((point) => {
       const iconFeature = new Feature({
@@ -41,29 +40,29 @@ function ViewMap({longitudeAndLatitudePoints}: ViewMapProps) {
       features.push(iconFeature);
     })
 
-    console.log("FEATURES: ", features);
-
-    const map = new Map({
-      target: mapRef.current,
-      layers: [
-        new TileLayer({
-          source: new OSM()
-        }),
-        new VectorLayer({
-          source: new VectorSource({
-            features: features,
+    if (mapRef.current) {
+      const map = new Map({
+        target: mapRef.current,
+        layers: [
+          new TileLayer({
+            source: new OSM()
           }),
+          new VectorLayer({
+            source: new VectorSource({
+              features: features,
+            }),
+          })
+        ],
+        view: new View({
+          center: center,
+          zoom: zoom
         })
-      ],
-      view: new View({
-        center: center,
-        zoom: zoom
-      })
-    });
-    return () => {
-      map.setTarget(undefined);
-    };
-  }, []);
+      });
+      return () => {
+        map.setTarget(undefined);
+      };
+    }
+  }, [longitudeAndLatitudePoints, center, zoom]);
 
   return (
     <div>

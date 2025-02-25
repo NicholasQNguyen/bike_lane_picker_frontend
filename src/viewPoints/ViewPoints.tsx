@@ -33,7 +33,6 @@ function ViewPoints() {
 
   function convertDataToArrayOfNumberArrays(data: PostgrestSingleResponse<any>): number[][] {
     const points: number[][] = [];
-    console.log("DATA: ", data);
 
     if (data.data === null) {
       console.log("fetched data was empty: ", data);
@@ -45,7 +44,6 @@ function ViewPoints() {
       points.push(newPoint);
     })
 
-    console.log("POINTS: ", points);
     return points;
   }
 

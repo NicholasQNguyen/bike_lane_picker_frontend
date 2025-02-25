@@ -13,7 +13,7 @@ import {Feature, MapBrowserEvent} from "ol";
 import {Icon, Style} from "ol/style";
 
 const SelectionMap = () => {
-  const mapRef = useRef();
+  const mapRef = useRef<HTMLDivElement>(null);
   const [center] = useState(fromLonLat([-75.1652, 39.9526]));
   const [zoom] = useState(14);
   const {updateCoordinates} = useCoordinatesStore();
@@ -45,66 +45,68 @@ const SelectionMap = () => {
       features: [iconFeature],
     });
 
-    const map = new Map({
-      target: mapRef.current,
-      layers: [
-        new TileLayer({
-          source: new OSM()
-        }),
+    if (mapRef.current) {
+      const map = new Map({
+        target: mapRef.current,
+        layers: [
+          new TileLayer({
+            source: new OSM()
+          }),
 
-        new VectorLayer({
-          source: vectorSource,
+          new VectorLayer({
+            source: vectorSource,
+          })
+        ],
+        view: new View({
+          center: center,
+          zoom: zoom
         })
-      ],
-      view: new View({
-        center: center,
-        zoom: zoom
-      })
-    });
-
-    const handleMapClick = (event: MapBrowserEvent<UIEvent>) => {
-      const coordinate: number[] = event.coordinate
-
-      // Add an icon where it's clicked
-      const iconFeature = new Feature({
-        geometry: new Point(coordinate),
-        name: 'Philadelphia',
-        population: 4000,
-        rainfall: 500,
       });
-      const iconStyle = new Style({
-        image: new Icon({
-          anchor: [0.5, 1],
-          anchorXUnits: 'fraction',
-          anchorYUnits: 'pixels',
-          src: 'src/assets/up_arrow.png',
-        }),
+
+      const handleMapClick = (event: MapBrowserEvent<UIEvent>) => {
+        const coordinate: number[] = event.coordinate
+
+        // Add an icon where it's clicked
+        const iconFeature = new Feature({
+          geometry: new Point(coordinate),
+          name: 'Philadelphia',
+          population: 4000,
+          rainfall: 500,
+        });
+        const iconStyle = new Style({
+          image: new Icon({
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            src: 'src/assets/up_arrow.png',
+          }),
+        });
+        iconFeature.setStyle(iconStyle);
+        setIconFeatures([iconFeature])
+
+        updateCoordinates(toLonLat(coordinate));
+      };
+
+      map.on('click', handleMapClick);
+
+      // Rerender when we add a new icon to the map (on Clicks)
+      const newVectorSource = new VectorSource({
+        features: iconFeatures,
       });
-      iconFeature.setStyle(iconStyle);
-      setIconFeatures([iconFeature])
+      map.setLayers([
+          new TileLayer({
+            source: new OSM()
+          }),
+          new VectorLayer({
+            source: newVectorSource,
+          })
+        ],
+      )
 
-      updateCoordinates(toLonLat(coordinate));
-    };
-
-    map.on('click', handleMapClick);
-
-    // Rerender when we add a new icon to the map (on Clicks)
-    const newVectorSource = new VectorSource({
-      features: iconFeatures,
-    });
-    map.setLayers([
-        new TileLayer({
-          source: new OSM()
-        }),
-        new VectorLayer({
-          source: newVectorSource,
-        })
-      ],
-    )
-
-    return () => {
-      map.setTarget(undefined);
-    };
+      return () => {
+        map.setTarget(undefined);
+      };
+    }
   }, [center, zoom, iconFeatures]);
 
   return (
