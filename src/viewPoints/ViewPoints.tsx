@@ -5,7 +5,8 @@ import supabase from "../supabase.ts";
 import {PostgrestSingleResponse} from "@supabase/supabase-js";
 
 function ViewPoints() {
-  const [longitudeAndLatitudePoints, setLongitudeAndLatitudePoints] = useState<number[][]>([[]])
+  const [longitudeAndLatitudePoints, setLongitudeAndLatitudePoints] = useState<number[][]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -13,6 +14,7 @@ function ViewPoints() {
         console.log("supabase connection not made");
         return;
       }
+      setIsLoading(true);
       try {
         const data = await supabase?.from("longitude_and_latitude").select()
         const points = convertDataToArrayOfNumberArrays(data)
@@ -21,6 +23,8 @@ function ViewPoints() {
       } catch (error) {
         console.log(error);
         return;
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -29,10 +33,11 @@ function ViewPoints() {
 
   function convertDataToArrayOfNumberArrays(data: PostgrestSingleResponse<any>): number[][] {
     const points: number[][] = [];
+    console.log("DATA: ", data);
 
     if (data.data === null) {
       console.log("fetched data was empty: ", data);
-      return [[]];
+      return [];
     }
 
     data.data.forEach((point: { longitude: number; latitude: number; }) => {
@@ -40,13 +45,22 @@ function ViewPoints() {
       points.push(newPoint);
     })
 
+    console.log("POINTS: ", points);
     return points;
   }
 
   return (
     <>
-      <h1> Hello </h1>
-      <ViewMap/>
+      <h1 className="flex justify-center text-5xl">
+        View Points
+      </h1>
+      {isLoading ? (
+        <p className="flex justify-center">Loading...</p>
+      ) : longitudeAndLatitudePoints.length > 0 ? (
+        <ViewMap longitudeAndLatitudePoints={longitudeAndLatitudePoints} />
+      ) : (
+        <p className="flex justify-center">No points to display.</p>
+      )}
       <Footer/>
     </>
   )
