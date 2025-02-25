@@ -10,6 +10,7 @@ import 'ol/ol.css';
 import {Point} from "ol/geom";
 import {Feature} from "ol";
 import {Icon, Style} from "ol/style";
+import upArrow from "/src/assets/up_arrow.png"
 
 interface ViewMapProps {
   longitudeAndLatitudePoints: number[][];
@@ -32,7 +33,7 @@ function ViewMap({longitudeAndLatitudePoints}: ViewMapProps) {
           anchor: [0.5, 1],
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
-          src: '/src/assets/up_arrow.png',
+          src: upArrow,
         }),
       });
 

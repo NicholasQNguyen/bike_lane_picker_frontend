@@ -11,6 +11,7 @@ import {useCoordinatesStore} from "../../CoordinatesStore.tsx";
 import {Point} from "ol/geom";
 import {Feature, MapBrowserEvent} from "ol";
 import {Icon, Style} from "ol/style";
+import upArrow from "/src/assets/up_arrow.png";
 
 const SelectionMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -35,7 +36,7 @@ const SelectionMap = () => {
         anchor: [0.5, 1],
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
-        src: '/src/assets/up_arrow.png',
+        src: upArrow,
       }),
     });
 
@@ -78,7 +79,7 @@ const SelectionMap = () => {
             anchor: [0.5, 1],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
-            src: '/src/assets/up_arrow.png',
+            src: upArrow,
           }),
         });
         iconFeature.setStyle(iconStyle);
