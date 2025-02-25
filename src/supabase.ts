@@ -2,7 +2,7 @@ import {createClient, SupabaseClient} from "@supabase/supabase-js";
 import {Database} from "./database.types.ts";
 
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_KEY;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
 let supabase: SupabaseClient<any, "public", any> | undefined = undefined;
 

@@ -33,7 +33,7 @@ to get it to work properly. So do the following:
 3) Make the .env file look like this:
 ```
 SUPABASE_URL=<What you got in `API_URL`>
-SUPABASE_KEY=<What you got in `anon key`>
+SUPABASE_ANON_KEY=<What you got in `anon key`>
 ```
 
 
