@@ -1,36 +1,19 @@
 import './App.css'
-import MyMap from "./components/MyMap/MyMap.tsx";
+import SelectionMap from "./components/SelectionMap/SelectionMap.tsx";
 import {useCoordinatesStore} from "./CoordinatesStore.tsx";
 import BluePillButton from "./components/BluePillButton/BluePillButton.tsx";
 import {useEffect, useState} from "react";
 import {Description, Dialog, DialogPanel, DialogTitle} from "@headlessui/react";
-import {createClient, SupabaseClient} from "@supabase/supabase-js";
+import supabase from "./supabase.ts";
 import Footer from "./components/Footer/Footer.tsx";
 
 function App() {
   const FIVE_SECONDS = 5000;
 
-  const [supabase, setSupabase] = useState<SupabaseClient<any, "public", any> | undefined>(undefined)
   const [isOpen, setIsOpen] = useState(false)
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
   const {coordinates} = useCoordinatesStore();
   const [popupMessage, setPopupMessage] = useState("")
-
-  // Set up supabase credentials
-  useEffect(() => {
-    console.log("Creating supabase connection");
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseAnonKey = process.env.SUPABASE_KEY;
-    if (supabaseUrl === undefined) {
-      console.log("supabase url missing");
-      return;
-    }
-    if (supabaseAnonKey === undefined) {
-      console.log("supabase anon key missing");
-      return;
-    }
-    setSupabase(createClient(supabaseUrl, supabaseAnonKey));
-  }, []);
 
   // Function used to upload data to supabase db
   async function submitData() {
@@ -86,7 +69,7 @@ function App() {
         Bike Lane Picker
       </h1>
       <div className="w-[1000] h-[400]">
-        <MyMap/>
+        <SelectionMap/>
       </div>
       <div className="flex justify-center">
         <BluePillButton text={"Submit"} onClick={() => setIsOpen(true)}/>

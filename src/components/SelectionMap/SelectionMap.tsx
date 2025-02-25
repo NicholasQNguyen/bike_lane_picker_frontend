@@ -12,7 +12,7 @@ import {Point} from "ol/geom";
 import {Feature, MapBrowserEvent} from "ol";
 import {Icon, Style} from "ol/style";
 
-const MyMap = () => {
+const SelectionMap = () => {
   const mapRef = useRef();
   const [center] = useState(fromLonLat([-75.1652, 39.9526]));
   const [zoom] = useState(14);
@@ -114,4 +114,4 @@ const MyMap = () => {
   );
 };
 
-export default MyMap;
+export default SelectionMap;
