@@ -35,7 +35,7 @@ const SelectionMap = () => {
         anchor: [0.5, 1],
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
-        src: 'src/assets/up_arrow.png',
+        src: '/src/assets/up_arrow.png',
       }),
     });
 
@@ -78,7 +78,7 @@ const SelectionMap = () => {
             anchor: [0.5, 1],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
-            src: 'src/assets/up_arrow.png',
+            src: '/src/assets/up_arrow.png',
           }),
         });
         iconFeature.setStyle(iconStyle);
